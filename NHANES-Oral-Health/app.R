@@ -7,7 +7,6 @@
 #    http://shiny.rstudio.com/
 #
 
-
 library(haven)
 library(tidyverse)
 library(ggplot2)
@@ -123,7 +122,6 @@ nhanesoh <- nhanesoh %>%
     filter(srohstatus %in% 1:5) %>%
     filter(exohstatus %in% 1:4)
 
-data("nhanesoh")
 ui <- navbarPage("NHANES (2017-2018)",
     tabPanel("Oral Health Outcomes",
         fluidPage(
@@ -135,20 +133,19 @@ ui <- navbarPage("NHANES (2017-2018)",
                                        selected = "ohutil"))),
                     
             fluidRow(
-                column(8, plotOutput("bar"))),
+                column(8, plotOutput("bar")))
     )),
 
-    tabPanel("Oral Health Outcomes",
+    tabPanel("Disability and Oral Health Utilization",
          fluidPage(
              fluidRow(
-                 column(6, radioButtons(inputId = "outcome",
-                                        label = "Oral Health Outcome",
-                                        choiceNames = c("Oral Health Utilization", "Self-Reported Oral Health Status", "Examiner-Assessed Oral Health Status"),
-                                        choiceValues = c("ohutil", "srohstatus", "exohstatus"),
-                                        selected = "ohutil"))),
+                 column(6, selectInput(inputId = "disabutil",
+                                        label = "Exposure",
+                                        choices = c("Gender"="gender", "Age"="agestatus", "Race/Ethnicity"="race/ethnicity", "Education"="education", "Self-Reported Health Status"="srhealthstatus"),
+                                        selected = "gender"))),
              
              fluidRow(
-                 column(8, plotOutput("bar"))),
+                 column(8, plotOutput("utilbar")))
      ))
 )
 
@@ -186,6 +183,65 @@ server <- function(input, output) {
                 theme_minimal()
         }
         )
+    
+    output$utilbar <- renderPlot(
+        if (input$disabutil == "gender")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = ohutil, fill = gender)) +
+                xlab("Gender") +
+                ylab("Count") +
+                scale_fill_hue() +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+                
+        else if (input$disabutil == "agestatus")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = ohutil, fill = "agestatus")) +
+                xlab("Age") +
+                ylab("Count") +
+                scale_fill_hue() +
+                theme_minimal()
+        }
+        
+        else if (input$disabutil == "race/ethnicity")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = ohutil, fill = "race/ethnicity")) +
+                xlab("Race/Ethnicity") +
+                ylab("Count") +
+                scale_fill_hue() +
+                theme_minimal()
+        }
+        
+        else if (input$disabutil == "education")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = ohutil, fill = education)) +
+                xlab("Education") +
+                ylab("Count") +
+                scale_fill_hue() +
+                theme_minimal()
+        }
+        
+        else
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = ohutil, fill = srhealthstatus)) +
+                xlab("Self-Reported Oral Health Status") +
+                ylab("Count") +
+                scale_fill_hue() +
+                theme_minimal()
+        }
+    )
+    
 }
 
 # Run the application 
