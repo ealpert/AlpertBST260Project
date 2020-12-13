@@ -1,3 +1,9 @@
+## Welcome and Project Objectives
+
+This project is designed to facilitate visualization of National Health and Nutrition Examination Survey (NHANES) data from 2017-2018.
+
+### NHANES Background
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/ealpert/AlpertBST260Project/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
