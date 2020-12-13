@@ -1,2 +1,4 @@
 theme: jekyll-theme-cayman
 title: "Oral Health Outcomes in NHANES (2017-2018)"
+output: html_document
+runtime: shiny
