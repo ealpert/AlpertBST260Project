@@ -34,9 +34,7 @@ In the United States, there are grim disparities in who can access dental servic
 
 # Data Visualization
 
-## Oral Health Outcomes
-
-```{r, echo = FALSE, fig.align='center'}
+```{r}
 library(haven)
 library(tidyverse)
 library(ggplot2)
@@ -172,6 +170,18 @@ nhanesoh <- nhanesoh %>%
     filter(srohstatus %in% 1:5) %>%
     filter(exohstatus %in% 1:4) %>%
     filter(healthins %in% 1:4)
+```
+
+## Oral Health Outcomes
+```{r}
+nhanesoh %>%    
+    ggplot() +
+    geom_boxplot(aes(x = exohstatus, y = age, fill = disability)) +
+    scale_fill_hue(name = "Disability Status", labels = c("No Disability", "Presence of Disability")) +
+    xlab("When Examiner Recommends Seeing a Dentist") +
+    scale_x_discrete(labels=c("Immediately", "Within 2 Weeks", "At Earliest Convenience", "Continue Regular Care")) +
+    ylab("Age") +
+    theme_minimal()
 ```
 
 ## Disability and Oral Health Utilization
