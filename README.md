@@ -36,7 +36,8 @@ In the United States, there are grim disparities in who can access dental servic
 
 ## Oral Health Outcomes
 
-`library(haven)
+```{r, echo = FALSE, fig.align='center'}
+library(haven)
 library(tidyverse)
 library(ggplot2)
 library(ggmosaic)
@@ -45,8 +46,6 @@ library(esquisse)
 library(survey)
 library(shiny)
 library(dslabs)
-
-# Reading in data
 
 # Reading in "Demographic Variables and Sample Weights" data (covariates)
 demo <- read_xpt("https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DEMO_J.XPT") %>%
@@ -172,7 +171,8 @@ nhanesoh <- nhanesoh %>%
     filter(ohutil %in% 1:7) %>%
     filter(srohstatus %in% 1:5) %>%
     filter(exohstatus %in% 1:4) %>%
-    filter(healthins %in% 1:4)`
+    filter(healthins %in% 1:4)
+```
 
 ## Disability and Oral Health Utilization
 
