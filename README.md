@@ -172,6 +172,376 @@ nhanesoh <- nhanesoh %>%
     filter(healthins %in% 1:4)
 ```
 
+```{r echo = FALSE}
+ui <- navbarPage("NHANES (2017-2018)",
+    tabPanel("Oral Health Outcomes",
+        fluidPage(
+            fluidRow(
+                column(6, radioButtons(inputId = "outcome",
+                                       label = "Oral Health Outcome",
+                                       choiceNames = c("Oral Health Utilization", "Self-Reported Oral Health Status", "Examiner-Assessed Oral Health Status"),
+                                       choiceValues = c("ohutil", "srohstatus", "exohstatus"),
+                                       selected = "ohutil"))),
+            fluidRow(
+                column(12, plotOutput("bar")))
+    )),
+
+    tabPanel("Disability and Oral Health Utilization",
+         fluidPage(
+             fluidRow(
+                 column(6, selectInput(inputId = "disabutil",
+                                        label = "Exposure",
+                                        choices = c("Gender"="gender", "Age"="agecat", "Race/Ethnicity"="race/ethnicity", "Education"="education", "Health Insurance"="healthins"),
+                                        selected = "gender"))),
+             fluidRow(
+                 column(12, plotOutput("utilbar")))
+     )),
+    
+    tabPanel("Disability and Self-Reported Oral Health Status",
+             fluidPage(
+                 fluidRow(
+                     column(6, selectInput(inputId = "disabstat",
+                                           label = "Exposure",
+                                           choices = c("Gender"="gender", "Age"="agecat", "Race/Ethnicity"="race/ethnicity", "Education"="education", "Health Insurance"="healthins"),
+                                           selected = "gender"))),
+                 fluidRow(
+                     column(12, plotOutput("statbar"))),
+     )),
+    
+    tabPanel("Disability and Examiner-Assessed Oral Health Status",
+             fluidPage(
+                 fluidRow(
+                     column(6, selectInput(inputId = "disabstat2",
+                                           label = "Exposure",
+                                           choices = c("Gender"="gender", "Age"="agecat", "Race/Ethnicity"="race/ethnicity", "Education"="education", "Health Insurance"="healthins"),
+                                           selected = "gender"))),
+                 fluidRow(
+                     column(12, plotOutput("statbar2")))
+     )),
+    
+    tabPanel("The Impact of Age",
+             fluidPage(
+                 fluidRow(
+                     column(12, plotOutput("histogram"))),
+                 fluidRow(
+                     column(6, radioButtons(inputId = "age",
+                                            label = "Oral Health Outcome",
+                                            choiceNames = c("Oral Health Utilization", "Self-Reported Oral Health Status", "Examiner-Assessed Oral Health Status"),
+                                            choiceValues = c("ohutil", "srohstatus", "exohstatus"),
+                                            selected = "ohutil"))),
+                 fluidRow(
+                     column(12, plotOutput("boxplot")))
+             ))
+)
+```
+
+```{r echo = FALSE}
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+
+    output$bar <- renderPlot(
+        if (input$outcome == "ohutil")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = ohutil, fill = "#0c4c8a"), show.legend = FALSE) +
+                xlab("When Did You Last Visit a Dentist?") +
+                ylab("Count") +
+                theme_minimal() +
+                scale_x_discrete(labels=c("Never", "5+ Years Ago", "3-5 Years Ago", "2-3 Years Ago", "1-2 Years Ago", "6 Months-1 Year Ago", "< 6 Months Ago"))
+        }
+        
+        else if (input$outcome == "srohstatus")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = srohstatus, fill = "#0c4c8a"), show.legend = FALSE) +
+                xlab("Self-Reported Oral Health Status") +
+                ylab("Count") +
+                theme_minimal() +
+                scale_x_discrete(labels=c("Poor", "Fair", "Good", "Very Good", "Excellent"))
+        }
+        
+        else
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = exohstatus, fill = "#0c4c8a"), show.legend = FALSE) +
+                xlab("When Examiner Recommends Seeing a Dentist") +
+                ylab("Count") +
+                theme_minimal() +
+                scale_x_discrete(labels=c("Immediately", "Within 2 Weeks", "At Earliest Convenience", "Continue Regular Care"))
+        }
+        )
+ 
+      
+    
+    output$utilbar <- renderPlot(
+        if (input$disabutil == "gender")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = ohutil, fill = gender)) +
+                xlab("When Did You Last Visit a Dentist?") +
+                scale_x_discrete(labels=c("Never", "5+ Years Ago", "3-5 Years Ago", "2-3 Years Ago", "1-2 Years Ago", "6 Months-1 Year Ago", "< 6 Months Ago")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Gender", labels = c("Male", "Female")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+                
+        else if (input$disabutil == "agecat")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = ohutil, fill = agecat)) +
+                xlab("When Did You Last Visit a Dentist?") +
+                scale_x_discrete(labels=c("Never", "5+ Years Ago", "3-5 Years Ago", "2-3 Years Ago", "1-2 Years Ago", "6 Months-1 Year Ago", "< 6 Months Ago")) +
+                ylab("Count") +
+                scale_fill_hue() +
+                theme_minimal() +
+                facet_wrap(vars(disability)) +
+                labs(fill = "Age Category")
+        }
+        
+        else if (input$disabutil == "race/ethnicity")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = ohutil, fill = `race/ethnicity`)) +
+                xlab("When Did You Last Visit a Dentist?") +
+                scale_x_discrete(labels=c("Never", "5+ Years Ago", "3-5 Years Ago", "2-3 Years Ago", "1-2 Years Ago", "6 Months-1 Year Ago", "< 6 Months Ago")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Race/Ethnicity", labels = c("Mexican American", "Other Hispanic", "Non-Hispanic White", "Non-Hispanic Black", "Non-Hispanic Asian", "Other Race")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+        else if (input$disabutil == "education")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = ohutil, fill = education)) +
+                xlab("When Did You Last Visit a Dentist?") +
+                scale_x_discrete(labels=c("Never", "5+ Years Ago", "3-5 Years Ago", "2-3 Years Ago", "1-2 Years Ago", "6 Months-1 Year Ago", "< 6 Months Ago")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Education", labels = c("< 9th Grade", "9th-11th Grade", "High School/GED", "Some College/AA", "College +")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+        else if (input$disabutil == "healthins")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = ohutil, fill = healthins)) +
+                xlab("When Did You Last Visit a Dentist?") +
+                scale_x_discrete(labels=c("Never", "5+ Years Ago", "3-5 Years Ago", "2-3 Years Ago", "1-2 Years Ago", "6 Months-1 Year Ago", "< 6 Months Ago")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Health Insurance", labels = c("Uninsured", "Medicaid", "Medicare", "Private")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+    )
+     
+       
+    output$statbar <- renderPlot(
+        if (input$disabstat == "gender")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = srohstatus, fill = gender)) +
+                xlab("Self-Reported Oral Health Status") +
+                scale_x_discrete(labels=c("Poor", "Fair", "Good", "Very Good", "Excellent")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Gender", labels = c("Male", "Female")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+        else if (input$disabstat == "agecat")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = srohstatus, fill = agecat)) +
+                xlab("Self-Reported Oral Health Status") +
+                scale_x_discrete(labels=c("Poor", "Fair", "Good", "Very Good", "Excellent")) +
+                ylab("Count") +
+                scale_fill_hue() +
+                theme_minimal() +
+                facet_wrap(vars(disability)) +
+                labs(fill = "Age Category")
+        }
+        
+        else if (input$disabstat == "race/ethnicity")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = srohstatus, fill = `race/ethnicity`)) +
+                xlab("Self-Reported Oral Health Status") +
+                scale_x_discrete(labels=c("Poor", "Fair", "Good", "Very Good", "Excellent")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Race/Ethnicity", labels = c("Mexican American", "Other Hispanic", "Non-Hispanic White", "Non-Hispanic Black", "Non-Hispanic Asian", "Other Race")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+        else if (input$disabstat == "education")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = srohstatus, fill = education)) +
+                xlab("Self-Reported Oral Health Status") +
+                scale_x_discrete(labels=c("Poor", "Fair", "Good", "Very Good", "Excellent")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Education", labels = c("< 9th Grade", "9th-11th Grade", "High School/GED", "Some College/AA", "College +")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+        else if (input$disabstat == "healthins")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = srohstatus, fill = healthins)) +
+                xlab("Self-Reported Oral Health Status") +
+                scale_x_discrete(labels=c("Poor", "Fair", "Good", "Very Good", "Excellent")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Health Insurance", labels = c("Uninsured", "Medicaid", "Medicare", "Private")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+    )
+  
+      
+    output$statbar2 <- renderPlot(
+        if (input$disabstat2 == "gender")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = exohstatus, fill = gender)) +
+                xlab("When Examiner Recommends Seeing a Dentist") +
+                scale_x_discrete(labels=c("Immediately", "Within 2 Weeks", "At Earliest Convenience", "Continue Regular Care")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Gender", labels = c("Male", "Female")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+        else if (input$disabstat2 == "agecat")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = exohstatus, fill = agecat)) +
+                xlab("When Examiner Recommends Seeing a Dentist") +
+                scale_x_discrete(labels=c("Immediately", "Within 2 Weeks", "At Earliest Convenience", "Continue Regular Care")) +
+                ylab("Count") +
+                scale_fill_hue() +
+                theme_minimal() +
+                facet_wrap(vars(disability)) +
+                labs(fill = "Age Category")
+        }
+        
+        else if (input$disabstat2 == "race/ethnicity")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = exohstatus, fill = `race/ethnicity`)) +
+                xlab("When Examiner Recommends Seeing a Dentist") +
+                scale_x_discrete(labels=c("Immediately", "Within 2 Weeks", "At Earliest Convenience", "Continue Regular Care")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Race/Ethnicity", labels = c("Mexican American", "Other Hispanic", "Non-Hispanic White", "Non-Hispanic Black", "Non-Hispanic Asian", "Other Race")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+        else if (input$disabstat2 == "education")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = exohstatus, fill = education)) +
+                xlab("When Examiner Recommends Seeing a Dentist") +
+                scale_x_discrete(labels=c("Immediately", "Within 2 Weeks", "At Earliest Convenience", "Continue Regular Care")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Education", labels = c("< 9th Grade", "9th-11th Grade", "High School/GED", "Some College/AA", "College +")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+        else if (input$disabstat2 == "healthins")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = exohstatus, fill = healthins)) +
+                xlab("When Examiner Recommends Seeing a Dentist") +
+                scale_x_discrete(labels=c("Immediately", "Within 2 Weeks", "At Earliest Convenience", "Continue Regular Care")) +
+                ylab("Count") +
+                scale_fill_hue(name = "Health Insurance", labels = c("Uninsured", "Medicaid", "Medicare", "Private")) +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+    )
+    
+    
+    output$histogram <- renderPlot(
+        ggplot(nhanesoh) +
+            aes(x = age, fill = disability) +
+            geom_histogram(bins = 30L) +
+            xlab("Age") +
+            ylab("Count") +
+            ggtitle("Age Distribution of Study Population") +
+            scale_fill_hue(name = "Disability Status", labels = c("No Disability", "Presence of Disability")) +
+            theme_minimal()
+    )
+    
+    output$boxplot <- renderPlot(
+        if (input$age == "ohutil")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_boxplot(aes(x = ohutil, y = age, fill = disability)) +
+                scale_fill_hue(name = "Disability Status", labels = c("No Disability", "Presence of Disability")) +
+                xlab("When Did You Last Visit a Dentist?") +
+                scale_x_discrete(labels=c("Never", "5+ Years Ago", "3-5 Years Ago", "2-3 Years Ago", "1-2 Years Ago", "6 Months-1 Year Ago", "< 6 Months Ago")) +
+                ylab("Age") +
+                theme_minimal()
+        }
+        
+        else if (input$age == "srohstatus")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_boxplot(aes(x = srohstatus, y = age, fill = disability)) +
+                scale_fill_hue(name = "Disability Status", labels = c("No Disability", "Presence of Disability")) +
+                xlab("Self-Reported Oral Health Status") +
+                scale_x_discrete(labels=c("Poor", "Fair", "Good", "Very Good", "Excellent")) +
+                ylab("Age") +
+                theme_minimal()
+        }
+        
+        else
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_boxplot(aes(x = exohstatus, y = age, fill = disability)) +
+                scale_fill_hue(name = "Disability Status", labels = c("No Disability", "Presence of Disability")) +
+                xlab("When Examiner Recommends Seeing a Dentist") +
+                scale_x_discrete(labels=c("Immediately", "Within 2 Weeks", "At Earliest Convenience", "Continue Regular Care")) +
+                ylab("Age") +
+                theme_minimal()
+        }
+    )
+
+
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
 ## Oral Health Outcomes
 ```{r}
 nhanesoh %>%    
@@ -183,6 +553,7 @@ nhanesoh %>%
     ylab("Age") +
     theme_minimal()
 ```
+
 
 ## Disability and Oral Health Utilization
 
