@@ -272,12 +272,12 @@ ggplot(data = nhanes) +
 
 ```{r}
 # Adjusted models
-logistic <- svyglm(ohutil~age+gender+education+disability+srhealthstatus, design=as.svrepdesign(nhanesdesign), family=quasibinomial, return.replicates=TRUE)
-logistic
+#logistic <- svyglm(ohutil~age+gender+education+disability+srhealthstatus, design=as.svrepdesign(nhanesdesign), family=quasibinomial, return.replicates=TRUE)
+#logistic
 
-https://cran.r-project.org/web/packages/ggmosaic/vignettes/ggmosaic.html
+#https://cran.r-project.org/web/packages/ggmosaic/vignettes/ggmosaic.html
 
-logistic <- svyglm(ohutil~+++srhealthstatus+uninsured+privateins+medicaid+medicare+disability, design=as.svrepdesign(nhanesdesign), family=quasibinomial, return.replicates=TRUE)
+#logistic <- svyglm(ohutil~+++srhealthstatus+uninsured+privateins+medicaid+medicare+disability, #design=as.svrepdesign(nhanesdesign), family=quasibinomial, return.replicates=TRUE)
 
 ```
 

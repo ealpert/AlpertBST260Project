@@ -141,12 +141,29 @@ ui <- navbarPage("NHANES (2017-2018)",
              fluidRow(
                  column(6, selectInput(inputId = "disabutil",
                                         label = "Exposure",
-                                        choices = c("Gender"="gender", "Age"="agestatus", "Race/Ethnicity"="race/ethnicity", "Education"="education", "Self-Reported Health Status"="srhealthstatus"),
+                                        choices = c("Gender"="gender", "Age"="agecat", "Race/Ethnicity"="race/ethnicity", "Education"="education"),
                                         selected = "gender"))),
              
              fluidRow(
                  column(8, plotOutput("utilbar")))
-     ))
+     )),
+    
+    tabPanel("Disability and Oral Health Status",
+             fluidPage(
+                 
+                 
+                 fluidRow(
+                     column(6, selectInput(inputId = "disabstat2",
+                                           label = "Exposure",
+                                           choices = c("Gender"="gender", "Age"="agecat", "Race/Ethnicity"="race/ethnicity", "Education"="education"),
+                                           selected = "gender"))),
+                 
+                 fluidRow(
+                     column(8, plotOutput("statbar"))),
+                 
+                 fluidRow(
+                     column(8, plotOutput("statbar2")))
+             ))
 )
 
 # Define server logic required to draw a histogram
@@ -197,26 +214,28 @@ server <- function(input, output) {
                 facet_wrap(vars(disability))
         }
                 
-        else if (input$disabutil == "agestatus")
+        else if (input$disabutil == "agecat")
         {
             nhanesoh %>% 
                 ggplot() +
-                geom_bar(aes(x = ohutil, fill = "agestatus")) +
+                geom_bar(aes(x = ohutil, fill = agecat)) +
                 xlab("Age") +
                 ylab("Count") +
                 scale_fill_hue() +
-                theme_minimal()
+                theme_minimal() +
+                facet_wrap(vars(disability))
         }
         
         else if (input$disabutil == "race/ethnicity")
         {
             nhanesoh %>% 
                 ggplot() +
-                geom_bar(aes(x = ohutil, fill = "race/ethnicity")) +
+                geom_bar(aes(x = ohutil, fill = `race/ethnicity`)) +
                 xlab("Race/Ethnicity") +
                 ylab("Count") +
                 scale_fill_hue() +
-                theme_minimal()
+                theme_minimal() +
+                facet_wrap(vars(disability))
         }
         
         else if (input$disabutil == "education")
@@ -227,21 +246,65 @@ server <- function(input, output) {
                 xlab("Education") +
                 ylab("Count") +
                 scale_fill_hue() +
-                theme_minimal()
+                theme_minimal() +
+                facet_wrap(vars(disability))
         }
         
-        else
+    )
+
+
+    
+        
+    output$statbar2 <- renderPlot(
+        if (input$disabstat2 == "gender")
         {
             nhanesoh %>% 
                 ggplot() +
-                geom_bar(aes(x = ohutil, fill = srhealthstatus)) +
-                xlab("Self-Reported Oral Health Status") +
+                geom_bar(aes(x = srohstatus, fill = gender)) +
+                xlab("Gender") +
                 ylab("Count") +
                 scale_fill_hue() +
-                theme_minimal()
+                theme_minimal() +
+                facet_wrap(vars(disability))
         }
-    )
-    
+        
+        else if (input$disabstat2 == "agecat")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = srohstatus, fill = agecat)) +
+                xlab("Age") +
+                ylab("Count") +
+                scale_fill_hue() +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+        else if (input$disabstat2 == "race/ethnicity")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = srohstatus, fill = `race/ethnicity`)) +
+                xlab("Race/Ethnicity") +
+                ylab("Count") +
+                scale_fill_hue() +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+        else if (input$disabstat2 == "education")
+        {
+            nhanesoh %>% 
+                ggplot() +
+                geom_bar(aes(x = srohstatus, fill = education)) +
+                xlab("Education") +
+                ylab("Count") +
+                scale_fill_hue() +
+                theme_minimal() +
+                facet_wrap(vars(disability))
+        }
+        
+    )    
 }
 
 # Run the application 
