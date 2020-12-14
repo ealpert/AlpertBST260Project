@@ -259,7 +259,11 @@ nhanesoh %>%
                 theme_minimal() +
                 facet_wrap(vars(disability))
 ```
-
+![disabutil1](images/disabutil1.png)
+![disabutil2](images/disabutil2.png)
+![disabutil3](images/disabutil3.png)
+![disabutil4](images/disabutil4.png)
+![disabutil5](images/disabutil5.png)
 
 ## Disability and Self-Reported Oral Health Status
 
@@ -315,7 +319,11 @@ nhanesoh %>%
                 theme_minimal() +
                 facet_wrap(vars(disability))
 ```
-
+![disabsr1](images/disabsr1.png)
+![disabsr2](images/disabsr2.png)
+![disabsr3](images/disabsr3.png)
+![disabsr4](images/disabsr4.png)
+![disabsr5](images/disabsr5.png)
 
 ## Disability and Examiner-Assessed Oral Health Status
 
@@ -371,7 +379,11 @@ nhanesoh %>%
                 theme_minimal() +
                 facet_wrap(vars(disability))
 ```
-
+![disabex1](images/disabex1.png)
+![disabex2](images/disabex2.png)
+![disabex3](images/disabex3.png)
+![disabex4](images/disabex4.png)
+![disabex5](images/disabex5.png)
 
 ## The Impact of Age
 
@@ -412,46 +424,7 @@ nhanesoh %>%
                 ylab("Age") +
                 theme_minimal()
 ```
-
-
-
-
-----------------
-
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/ealpert/AlpertBST260Project/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ealpert/AlpertBST260Project/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+![age1](images/age1.png)
+![age2](images/age2.png)
+![age3](images/age3.png)
+![age4](images/age4.png)
