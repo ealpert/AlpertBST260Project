@@ -1,5 +1,9 @@
 **Author:** Elizabeth Alpert
 
+#### Video Presentation
+
+[Click to View Presentation Video](https://vimeo.com/490585088)
+
 #### Project Links (for reference)
 
 [GitHub Repo](https://github.com/ealpert/AlpertBST260Project)
@@ -10,11 +14,9 @@
 
 [HTML of Final Project Submission](ealpert-bst260finalproject.html)
 
-![Elizabeth Alpert BST260 Final Project](https://vimeo.com/490585088)
-
 ## Welcome and Project Objectives
 
-This project is designed to facilitate visualization of National Health and Nutrition Examination Survey (NHANES) data from 2017-2018. Specifically, this project focuses on associations between different exposures and oral health-related outcomes. Exposures investigated include: gender, age, race/ethnicity, education, health insurance, and disability status. Outcomes were oral health utilization, self-reported oral health status, and examiner-assessed oral health status.
+This project is designed to facilitate visualization of National Health and Nutrition Examination Survey (NHANES) data from 2017-2018. Specifically, this project focuses on associations between different exposures and oral health-related outcomes. **Exposures investigated include: gender, age, race/ethnicity, education, health insurance, and disability status. Outcomes were oral health utilization, self-reported oral health status, and examiner-assessed oral health status.**
 
 Project Objectives:
 - Through data visualization, gain a better understanding of the distribution of oral health related outcomes.

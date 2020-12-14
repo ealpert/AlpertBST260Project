@@ -1,6 +1,10 @@
 Oral Health Outcomes in NHANES (2017-2018)
 Author: Elizabeth Alpert
 
+#### Video Presentation
+
+[Click to View Presentation Video](https://vimeo.com/490585088)
+
 #### Project Links
 
 [Project Website](https://ealpert.github.io/AlpertBST260Project/)
