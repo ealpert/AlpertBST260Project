@@ -15,9 +15,6 @@ library(survey)
 library(RNHANES)
 ```
 
-```{r}
-new_data <- nhanes_load_data("DLQ_H", "2013-2014", demographics = TRUE)
-```
 
 
 Reading in NHANES 2017-2018 data.
