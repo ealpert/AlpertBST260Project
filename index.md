@@ -10,7 +10,7 @@
 
 [HTML of Final Project Submission](ealpert-bst260finalproject.html)
 
-![Elizabeth Alpert BST260 Final Project](https://vimeo.com/user129168421/review/490585088/a772583834)
+![Elizabeth Alpert BST260 Final Project](https://vimeo.com/490585088)
 
 ## Welcome and Project Objectives
 
