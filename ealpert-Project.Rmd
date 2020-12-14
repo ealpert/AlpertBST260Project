@@ -195,7 +195,7 @@ nhanesoh <- nhanesoh %>%
 ```
 
 ```{r}
-# According to CDC tutorial (https://wwwn.cdc.gov/nchs/nhanes/tutorials/Module3.aspx), since I am using both interview and exam data, I should use the MEC exam weight
+# According to CDC tutorial (https://wwwn.cdc.gov/nchs/nhanes/tutorials/Module3.aspx), since I am using both interview and exam data, I should use the MEC exam weight for statistical analysis
 
 # Creating variable "nhanesdesign" to use in runnning analysis, using "svydesign" to assign weights
 nhanesdesign <- svydesign(id      = ~psu,
@@ -204,92 +204,11 @@ nhanesdesign <- svydesign(id      = ~psu,
                           nest    = TRUE,
                           data    = nhanesoh)
 
-# Applying weights to covariates (age, agecat, gender, race/ethnicity, education, srhealthstatus, disability, healthins)
+# Applying weights to covariate (age)
 agedesign <- subset(nhanesdesign, age %in% 0:200)
 svymean(~age, agedesign, na.rm = TRUE)
 summary(nhanesoh$age)
 
-# Applying weights to outcomes (srohstatus, exohstatus, ohutil)
-
-```
-
-library(ggplot2)
-
-ggplot(nhanesoh) +
- aes(x = ohutil, fill = gender) +
- geom_bar() +
- scale_fill_hue() +
- theme_minimal() +
- facet_wrap(vars(disability))
-
-ggplot(nhanesoh) +
- aes(x = ohutil, fill = `race/ethnicity`) +
- geom_bar() +
- scale_fill_hue() +
- theme_minimal() +
- facet_wrap(vars(disability))
-
-ggplot(nhanesoh) +
- aes(x = ohutil, fill = education) +
- geom_bar() +
- scale_fill_hue() +
- theme_minimal() +
- facet_wrap(vars(disability))
-
-ggplot(nhanesoh) +
- aes(x = ohutil, fill = education) +
- geom_bar() +
- scale_fill_hue() +
- theme_minimal() +
- facet_wrap(vars(disability))
-
-ggplot(nhanesoh) +
- aes(x = ohutil, fill = agecat) +
- geom_bar() +
- scale_fill_hue() +
- theme_minimal() +
- facet_wrap(vars(disability))
-
-
-
-```{r}
-esquisse::esquisser()
-```
-
-
-
-
-library(ggplot2)
-
-ggplot(nhanesoh) +
- aes(x = age, fill = disability) +
- geom_histogram(bins = 30L) +
- scale_fill_hue() +
- theme_minimal()
-
-ggplot(nhanesoh) +
- aes(x = ohutil, y = age, fill = disability) +
- geom_boxplot() +
- scale_fill_hue() +
- theme_minimal()
-
-ggplot(nhanesoh) +
- aes(x = exohstatus, y = age, fill = disability) +
- geom_boxplot() +
- scale_fill_hue() +
- theme_minimal()
-
-ggplot(nhanesoh) +
- aes(x = srohstatus, y = age, fill = disability) +
- geom_boxplot() +
- scale_fill_hue() +
- theme_minimal()
-
-```{r}
-ggplot(nhanesoh) +
- aes(x = ohutil) +
- geom_bar(fill = "#0c4c8a") +
- theme_minimal()
 ```
 
 
@@ -297,87 +216,3 @@ ggplot(nhanesoh) +
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r}
-ggplot(data = nhanes) +
-   geom_mosaic(aes(x = product(ohutil), fill=ohutil, conds=product(disability), na.rm=TRUE))
-```
-
-
-```{r}
-# Adjusted models
-#logistic <- svyglm(ohutil~age+gender+education+disability+srhealthstatus, design=as.svrepdesign(nhanesdesign), family=quasibinomial, return.replicates=TRUE)
-#logistic
-
-#https://cran.r-project.org/web/packages/ggmosaic/vignettes/ggmosaic.html
-
-#logistic <- svyglm(ohutil~+++srhealthstatus+uninsured+privateins+medicaid+medicare+disability, #design=as.svrepdesign(nhanesdesign), family=quasibinomial, return.replicates=TRUE)
-
-```
-
-
-ADDITIONAL CODE IDEAS (NOT USED)
-
-
-```{r}
-
-
-
-# Defining outcome (oral health utilization) as dichotomous (no utilization of dental services in past year = 1, utilization in past year = 0)
-#nhanes <- mutate(nhanes, ohutil = ifelse(OHQ030==3 | OHQ030==4 | OHQ030==5, 1, 0))
-
-# Defining outcome (self-reported oral health status) as dichotomous (fair/poor self-reported oral health = 1, excellent/good/very good self-reported oral health = 0)
-#nhanes <- mutate(nhanes, srohstatus = ifelse(OHQ845==4 | OHQ845==5, 1, 0))
-
-# Defining outcome (assessed oral health status by examiner) as dichotomous (dental care needed, proxy of fair/poor oral health status = 1, dental care not needed, proxy of excellent/good/very good oral health status = 0)
-#nhanes <- mutate(nhanes, exohstatus = ifelse(OHAREC==1 | OHAREC==2 | OHAREC==3, 1, 0))
-library(ggplot2)
-
-ggplot(nhanesoh) +
- aes(x = ohutil) +
- geom_bar(fill = "#0c4c8a") +
- theme_minimal()
-
-
-# Creating education indicator variables (education level for adults 20+) (high less than high school = 1, high school or greater = 0)
-#nhanes <- mutate(nhanes, education = ifelse(DMDEDUC2==1 | DMDEDUC2==2, 1, 0))
-
-
-# Creating indicator variable for "uninsured"
-#nhanes <- mutate(nhanes, uninsured = ifelse(HIQ011==2, 1, 0))
-
-## Creating indicator variable for "covered by Medicare"
-#nhanes <- mutate(nhanes, medicare = ifelse(HIQ031B==15, 1, 0))
-# Creating indicator variable for "covered by private insurance"
-#nhanes <- mutate(nhanes, privateins = ifelse(HIQ031A==14, 1, 0))
-
-# Creating categorical variable for health insurance
-#nhanes <- mutate(nhanes, healthins =
-    #ifelse(uninsured==1, "uninsured",
-    #ifelse(medicaid==1, "medicaid",
-    #ifelse(medicare==1, "medicare",
-    #ifelse(privateins==1, "private"
-    #)))))
-```
