@@ -19,7 +19,7 @@ Survey Data Collection:
 
 
 Frequently Asked Questions:
-- How many individals participate? *Approximately 34,000 are interviewed and 21,000 examined.*
+- How many individuals participate? *Approximately 34,000 are interviewed and 21,000 examined.*
 - What is the response rate? *85% for interviews and 78% for exams. These are relatively high!*
 - How is the complex sampling design accounted for in the analysis? *Survey procedures need to be used in statistical analysis, so weights are applied to the data to provide unbiased national estimates.*
 - What are the main limitations of this data? *Since the data is cross-sectional, causality can't be determined. Information may be subject to recall bias. Sample sizes for certain variables may be small.*
@@ -40,7 +40,6 @@ library(tidyverse)
 library(ggplot2)
 library(ggmosaic)
 library(survey)
-library(esquisse)
 library(survey)
 library(shiny)
 library(dslabs)
