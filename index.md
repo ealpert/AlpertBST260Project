@@ -1,4 +1,8 @@
-Author: Elizabeth Alpert
+**Author:** Elizabeth Alpert
+
+#### Project Links (for reference)
+
+[GitHub Repo](https://github.com/ealpert/AlpertBST260Project)
 
 [Shiny App Code](app.R)
 

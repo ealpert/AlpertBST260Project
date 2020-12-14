@@ -1,5 +1,9 @@
 Oral Health Outcomes in NHANES (2017-2018)
-by Elizabeth Alpert
+Author: Elizabeth Alpert
+
+#### Project Links
+
+[Project Website](https://ealpert.github.io/AlpertBST260Project/)
 
 [Shiny App Code](app.R)
 
