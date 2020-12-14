@@ -3,6 +3,6 @@ by Elizabeth Alpert
 
 [Shiny App Code](app.R)
 
-[R Markdown of Final Project Submission](ealpert-bst260finalproject.Rmd)
+[R Markdown of Final Project Submission](index.Rmd)
 
-[HTML of Final Project Submission](ealpert-bst260finalproject.html)
+[HTML of Final Project Submission](index.html)
